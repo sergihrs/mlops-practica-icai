@@ -1,17 +1,18 @@
-"""
-Script de entrenamiento de un modelo de clasificación utilizando RandomForest
-"""
+import os
 
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
 import joblib
+import matplotlib.pyplot as plt
 import mlflow
 import mlflow.sklearn
-import dagshub
 import pandas as pd
+import seaborn as sns
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.model_selection import train_test_split
 
-dagshub.init(repo_owner="sergihrs", repo_name="mlops-practica-icai", mlflow=True)
+# dagshub.init(repo_owner="sergihrs", repo_name="mlops-practica-icai", mlflow=True)
+tracking_uri = os.environ.get("MLFLOW_TRACKING_URI")
+mlflow.set_tracking_uri(str(tracking_uri))
 
 
 # Cargar el conjunto de datos desde el archivo CSV
@@ -44,6 +45,22 @@ with mlflow.start_run():
     mlflow.sklearn.log_model(model, "random-forest-model")
     # Registrar parámetros y métricas
     mlflow.log_param("n_estimators", 10)
-    mlflow.log_metric("accuracy", accuracy)
+    mlflow.log_metric("accuracy", float(accuracy))
     print(f"Modelo entrenado y precisión: {accuracy:.4f}")
     print("Experimento registrado con MLflow.")
+
+    # --- Sección de Reporte para CML ---
+    # 1. Generar la matriz de confusión
+    cm = confusion_matrix(y_test, y_pred)
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+    plt.title("Matriz de Confusión")
+    plt.xlabel("Predicciones")
+    plt.ylabel("Valores Reales")
+    plt.savefig("confusion_matrix.png")
+    print("Matriz de confusión guardada como 'confusion_matrix.png'")
+    # --- Fin de la sección de Reporte ---
+    # --- Fin de la sección de Reporte ---
+    # --- Fin de la sección de Reporte ---
+    # --- Fin de la sección de Reporte ---
+    # --- Fin de la sección de Reporte ---
