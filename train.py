@@ -1,4 +1,7 @@
-import pandas as pd
+"""
+Script de entrenamiento de un modelo de clasificación utilizando RandomForest
+"""
+
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -6,11 +9,14 @@ from sklearn.metrics import accuracy_score
 import joblib
 import mlflow
 import mlflow.sklearn
+import dagshub
+
+dagshub.init(repo_owner="sergihrs", repo_name="mlops-practica-icai", mlflow=True)
+
 
 # Cargar el conjunto de datos
-iris = datasets.load_iris()
-X = iris.data
-y = iris.target
+X, y = datasets.load_iris(return_X_y=True)
+
 # Iniciar un experimento de MLflow
 with mlflow.start_run():
     # Dividir los datos en conjuntos de entrenamiento y prueba
@@ -18,7 +24,7 @@ with mlflow.start_run():
         X, y, test_size=0.3, random_state=42
     )
     # Inicializar y entrenar el modelo
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model = RandomForestClassifier(n_estimators=10, random_state=42)
     model.fit(X_train, y_train)
     # Realizar predicciones y calcular la precisión
     y_pred = model.predict(X_test)
@@ -29,7 +35,7 @@ with mlflow.start_run():
     # Registrar el modelo con MLflow
     mlflow.sklearn.log_model(model, "random-forest-model")
     # Registrar parámetros y métricas
-    mlflow.log_param("n_estimators", 100)
+    mlflow.log_param("n_estimators", 10)
     mlflow.log_metric("accuracy", accuracy)
     print(f"Modelo entrenado y precisión: {accuracy:.4f}")
     print("Experimento registrado con MLflow.")
