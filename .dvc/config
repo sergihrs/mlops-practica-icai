@@ -1,4 +1,4 @@
 [core]
     remote = origin
 ['remote "origin"']
-    url = https://dagshub.com/sergihrs/mlops-practica-icai.mlflow
+    url = https://dagshub.com/sergihrs/mlops-practica-icai.dvc
