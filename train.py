@@ -2,7 +2,6 @@
 Script de entrenamiento de un modelo de clasificación utilizando RandomForest
 """
 
-from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
@@ -10,12 +9,21 @@ import joblib
 import mlflow
 import mlflow.sklearn
 import dagshub
+import pandas as pd
 
 dagshub.init(repo_owner="sergihrs", repo_name="mlops-practica-icai", mlflow=True)
 
 
-# Cargar el conjunto de datos
-X, y = datasets.load_iris(return_X_y=True)
+# Cargar el conjunto de datos desde el archivo CSV
+try:
+    iris = pd.read_csv("data/iris_dataset.csv")
+except FileNotFoundError:
+    print("Error: El archivo 'data/iris_dataset.csv' no fue encontrado.")
+
+# Dividir el DataFrame en características (X) y etiquetas (y)
+X = iris.drop("target", axis=1)
+y = iris["target"]
+
 
 # Iniciar un experimento de MLflow
 with mlflow.start_run():
