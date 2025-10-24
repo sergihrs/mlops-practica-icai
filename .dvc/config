@@ -2,3 +2,6 @@
     remote = origin
 ['remote "origin"']
     url = https://dagshub.com/sergihrs/mlops-practica-icai.dvc
+    auth = basic
+    user = sergihrs
+    password = 8ac22930145ba7f76a8de6ac9675c6f04bdfb45e
