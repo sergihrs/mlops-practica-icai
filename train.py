@@ -58,9 +58,11 @@ with mlflow.start_run():
     plt.xlabel("Predicciones")
     plt.ylabel("Valores Reales")
     plt.savefig("confusion_matrix.png")
+    cm_path = os.path.abspath("confusion_matrix.png")
     print("Matriz de confusión guardada como 'confusion_matrix.png'")
-    # --- Fin de la sección de Reporte ---
-    # --- Fin de la sección de Reporte ---
-    # --- Fin de la sección de Reporte ---
-    # --- Fin de la sección de Reporte ---
-    # --- Fin de la sección de Reporte ---
+    # Registrar la matriz de confusión como artifact en MLflow
+    if os.path.exists(cm_path):
+        mlflow.log_artifact(cm_path)
+        print(f"Matriz de confusión registrada en MLflow como artifact: {cm_path}")
+    else:
+        print(f"No se encontró el archivo de la matriz de confusión en {cm_path}; no se pudo registrar como artifact.")
