@@ -71,7 +71,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: DVC and Python setup
+      - name: DVC setup
         uses: iterative/setup-dvc@v1
       - name: Setup Python
         uses: actions/setup-python@v4
