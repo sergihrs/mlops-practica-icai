@@ -116,3 +116,27 @@ jobs:
         run: |
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
+
+          kubectl apply -f web-deployment.yaml
+          kubectl apply -f web-service.yaml
+
+      - name: Configure Docker to use GCR
+        run: gcloud auth configure-docker
+
+      # --- CONSTRUIR Y SUBIR IMAGEN DE LA API (mlops-api) ---
+      - name: Build and Push API Docker Image
+        run: |
+          # 1. Construir la imagen de la API usando Dockerfile
+          docker build -t gcr.io/${{ vars.GCP_PROJECT_ID }}/mlops-api:latest .
+
+          # 2. Subir la imagen de la API a GCR
+          docker push gcr.io/${{ vars.GCP_PROJECT_ID }}/mlops-api:latest
+
+      # --- CONSTRUIR Y SUBIR IMAGEN DE LA WEB (mlops-web) ---
+      - name: Build and Push Web Docker Image
+        run: |
+          # 1. Construir la imagen de la WEB usando Dockerfile.web
+          docker build -f Dockerfile.web -t gcr.io/${{ vars.GCP_PROJECT_ID }}/mlops-web:latest .
+
+          # 2. Subir la imagen de la WEB a GCR
+          docker push gcr.io/${{ vars.GCP_PROJECT_ID }}/mlops-web:latest
