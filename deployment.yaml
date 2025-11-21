@@ -13,9 +13,9 @@ spec:
     metadata:
       labels:
         app: mlops-api
-  spec:
-    containers:
-    - name: mlops-api
-      image: gcr.io/practica-kubernetes-478916/mlops-api:latest
-      ports:
-      - containerPort: 5000
+    spec:
+      containers:
+        - name: mlops-api
+          image: gcr.io/practica-kubernetes-478916/mlops-api:latest
+          ports:
+            - containerPort: 5000
