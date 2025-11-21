@@ -26,6 +26,9 @@ jobs:
         run: |
           npm install -g @dvcorg/cml
 
+      - name: Setup DVC
+        uses: iterative/setup-dvc@v1
+
       - name: Restore DVC Cache
         uses: actions/cache@v3
         with:
@@ -39,7 +42,6 @@ jobs:
           DAGSHUB_API_KEY: ${{ secrets.DAGSHUB_API_KEY }}
           DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
         run: |
-          # Configure DVC http remote with username + token (local config so it is not committed)
           dvc remote modify origin --local user ${DAGSHUB_USERNAME}
           dvc remote modify origin --local password ${DAGSHUB_API_KEY}
           dvc pull -r origin
