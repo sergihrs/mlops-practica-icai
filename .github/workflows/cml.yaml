@@ -19,8 +19,12 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.email "TUEMAIL"
-          git config --global user.name "TUUSUARIO"
+          git config --global user.email "202113370@alu.comillas.edu"
+          git config --global user.name "sergihrs"
+
+      - name: Install CML manually
+        run: |
+          npm install -g @dvcorg/cml
 
       - name: Restore DVC Cache
         uses: actions/cache@v3
@@ -50,10 +54,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "16"
-
-      - name: Install CML manually
-        run: |
-          npm install -g @dvcorg/cml
 
       - name: Run training script
         env:
