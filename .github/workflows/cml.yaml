@@ -151,3 +151,4 @@ jobs:
           kubectl apply -f api-service.yaml
           kubectl apply -f web-deployment.yaml
           kubectl apply -f web-service.yaml
+          kubectl apply -f pod-monitoring.yaml

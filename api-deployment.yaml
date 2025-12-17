@@ -18,4 +18,5 @@ spec:
         - name: mlops-api
           image: gcr.io/practica-kubernetes-478916/mlops-api:latest
           ports:
+            - name: metrics
             - containerPort: 5000
